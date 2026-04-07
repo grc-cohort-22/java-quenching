@@ -12,7 +12,19 @@ public class Practice {
      * @return the sum of the odd numbers in the array
      */
     public static int oddSum(int[] nums) {
-        return 0;
+        if(nums == null){
+            return 0;
+        }
+
+        int sum = 0;
+
+        for(int i = 0; i < nums.length; i++){
+            if(nums[i] % 2 != 0){
+                sum += nums[i];
+            }
+        }
+
+        return sum;
     }
 
     /**
@@ -27,7 +39,27 @@ public class Practice {
      * @throws NullPointerException if words is null
      */
     public static String shortestWord(Set<String> words) {
-        return null;
+
+        if(words.size() == 0){
+            throw new IllegalArgumentException("Cant be empty");
+        }
+
+        String shortestWord = "";
+        int shortest = Integer.MAX_VALUE;
+
+        for (String word : words) {
+            if(word.length() < shortest){
+                shortestWord = word;
+                shortest = word.length();
+            } else if(word.length() == shortest && shortestWord.charAt(0) == word.charAt(0)){
+                if(word.compareTo(shortestWord) < 0){
+                    shortestWord = word;
+                    shortest = word.length();
+                }
+            }
+        }
+
+        return shortestWord;
     }
 
     /**
