@@ -1,3 +1,4 @@
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -282,6 +283,14 @@ public class Practice {
      * @return the depth of the tree, or 0 if the tree is null or the root is not present in the tree
      */
     public static <T> int maxDepth(Map<T, List<T>> tree, T root) {
-        return 0;
+        if (tree == null || root == null) return 0;
+        List<T> children = tree.getOrDefault(root, Collections.emptyList());
+        if (children.isEmpty()) return 1;
+        int max = 0;
+        for (T child : children) {
+            int childDepth = maxDepth(tree, child);
+            if (childDepth > max) max = childDepth;
+        }
+        return 1 + max;
     }
 }
