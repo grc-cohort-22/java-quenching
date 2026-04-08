@@ -336,6 +336,12 @@ public class Practice {
      * @return the depth of the tree, or 0 if the tree is null or the root is not present in the tree
      */
     public static <T> int maxDepth(Map<T, List<T>> tree, T root) {
+        if(tree == null){
+            return 0;
+        }
+
+        
+
         return 0;
     }
 }
