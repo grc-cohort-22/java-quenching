@@ -1,6 +1,8 @@
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.HashSet;
+import java.util.HashMap;
 
 public class Practice {
     /**
@@ -12,7 +14,17 @@ public class Practice {
      * @return the sum of the odd numbers in the array
      */
     public static int oddSum(int[] nums) {
-        return 0;
+        if (nums == null) {
+            return 0;
+        }
+        int sum = 0;
+
+        for (int num : nums) {
+            if (num % 2 == 1 || num % 2 == -1) {
+                sum += num;
+            }
+        }
+        return sum;
     }
 
     /**
@@ -27,7 +39,20 @@ public class Practice {
      * @throws NullPointerException if words is null
      */
     public static String shortestWord(Set<String> words) {
-        return null;
+        if (words.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+        // if (words == null) {
+        //     throw new NullPointerException();
+        // }
+        String shortest = "adsfadsfadsfasdfadsfadsf";
+        for (String word : words) {
+            if (word.length() < shortest.length() || (word.length() == shortest.length() && word.compareTo(shortest) < 0) ) {
+                shortest = word;
+            }
+        }
+
+        return shortest;
     }
 
     /**
@@ -40,7 +65,21 @@ public class Practice {
      * @throws NullPointerException if ages is null
      */
     public static Set<String> adults(Map<String, Integer> ages) {
-        return null;
+        if (ages == null) {
+            throw new NullPointerException();
+        }
+        Set<String> allNames = new HashSet<>();
+
+        for (Map.Entry<String, Integer> entry : ages.entrySet()) {
+            String key = entry.getKey();
+            Integer value = entry.getValue();
+
+            if (value >= 18) {
+                allNames.add(key);
+            }
+        }
+
+        return allNames;
     }
 
     /**
@@ -51,7 +90,22 @@ public class Practice {
      * @throws IllegalArgumentException if head is null
      */
     public static int biggestNumber(ListNode<Integer> head) {
-        return 0;
+        if (head == null) {
+            throw new IllegalArgumentException();
+        }
+
+        ListNode<Integer> current = head;
+        int biggest = current.data;
+
+        while (current.next != null) {
+            current = current.next;
+
+            if (current.data > biggest) {
+                biggest = current.data;
+            }
+        }
+
+        return biggest;
     }
 
     /**
@@ -68,7 +122,18 @@ public class Practice {
      * @return a frequency map of values in the list
      */
     public static <T> Map<T, Integer> frequencies(ListNode<T> head) {
-        return null;
+        Map<T, Integer> freqMap = new HashMap<>();
+        if (head == null) {
+            return freqMap;
+        }
+
+        ListNode<T> current = head;
+        while (current != null) {
+            freqMap.put(current.data, freqMap.getOrDefault(current.data, 0) + 1);
+            current = current.next;
+        }
+
+        return freqMap;
     }
 
 
