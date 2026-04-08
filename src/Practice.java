@@ -3,6 +3,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 
 public class Practice {
     /**
@@ -192,7 +193,33 @@ public class Practice {
      * @return true if the sums are equal, false otherwise
      */
     public static boolean sumMatch(BinaryTreeNode<Integer> root, ListNode<Integer> head) {
-        return false;
+        Stack<BinaryTreeNode<Integer>> stk = new Stack<>();
+        if(root != null) {
+            stk.push(root);
+        }
+
+        int treeSum = 0;
+        int listSum = 0;
+
+        while(!stk.isEmpty()) {
+            BinaryTreeNode<Integer> node = stk.pop();
+            treeSum += node.data;
+
+            if(node.left != null) {
+                stk.push(node.left);
+            }
+            if(node.right != null) {
+                stk.push(node.right);
+            }
+        }
+
+        ListNode<Integer> current = head;
+        while(current != null) {
+            listSum += current.data;
+            current = current.next;
+        }
+
+        return treeSum == listSum;
     }
 
     /**
