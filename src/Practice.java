@@ -176,7 +176,19 @@ public class Practice {
      * @return true if the sums are equal, false otherwise
      */
     public static boolean sumMatch(BinaryTreeNode<Integer> root, ListNode<Integer> head) {
-        return false;
+        int treeSum = (root == null) ? 0 :
+            root.data + sumMatchHelper(root.left) + sumMatchHelper(root.right);
+        int listSum = 0;
+        while (head != null) {
+            listSum += head.data;
+            head = head.next;
+        }
+        return treeSum == listSum;
+    }
+
+    private static int sumMatchHelper(BinaryTreeNode<Integer> root) {
+        if (root == null) return 0;
+        return root.data + sumMatchHelper(root.left) + sumMatchHelper(root.right);
     }
 
     /**
