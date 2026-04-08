@@ -259,7 +259,7 @@ public class Practice {
     }
 
     return total;
-}
+    }
 
     /**
      * Returns the count of nodes in a non-binary tree that are only children, EXCLUDING the root.
@@ -290,7 +290,21 @@ public class Practice {
      * @return the count of nodes that do not have siblings, EXCLUDING THE ROOT
      */
     public static int onlyChildCount(TreeNode<?> root) {
-        return 0;
+       if (root == null) {
+            return 0;
+        }
+
+        int count = 0;
+
+        for (TreeNode<?> child : root.children) {
+            count += onlyChildCount(child);
+        }
+
+        if(root.children.size() == 1){
+            count++;
+        }
+
+        return count;
     }
 
     /**
@@ -328,6 +342,26 @@ public class Practice {
      * @return the depth of the tree, or 0 if the tree is null or the root is not present in the tree
      */
     public static <T> int maxDepth(Map<T, List<T>> tree, T root) {
-        return 0;
+        if(tree == null || root == null){
+            return 0;
+        }
+
+        int maxDepth = 1;
+
+        List<T> children = tree.get(root);
+
+        if(children != null){
+            for(T child : children){
+                maxDepth = Math.max(maxDepth, maxDepth(tree, child));
+            }
+        }else{
+            return 0;
+        }
+
+       
+
+        return 1 + maxDepth;
+
+        
     }
 }
