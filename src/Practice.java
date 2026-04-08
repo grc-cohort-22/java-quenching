@@ -1,3 +1,4 @@
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -12,7 +13,23 @@ public class Practice {
      * @return the sum of the odd numbers in the array
      */
     public static int oddSum(int[] nums) {
-        return 0;
+        if(nums == null){
+            return 0;
+        }
+        if(nums.length > 0){
+            int sum = 0;
+            for(int i = 0; i < nums.length; i++){
+                switch (nums[i]%2) {
+                    case 0 -> {
+                    }
+                    case 1 -> sum+=nums[i];
+                    case -1 -> sum+=nums[i];
+                }
+            }
+            return sum;
+        }else{
+            return 0;
+        }
     }
 
     /**
@@ -27,7 +44,23 @@ public class Practice {
      * @throws NullPointerException if words is null
      */
     public static String shortestWord(Set<String> words) {
-        return null;
+        if(words == null){
+            throw new NullPointerException();
+        }else if(words.size() < 1){
+            throw new IllegalArgumentException();
+        }
+        String shortWord = "dsajfoiewahjrog8jeraiobjfdaighjdaihgerwao8gherahgusahfoiueahgfdo98";
+        for (String string : words) {
+            if(string.length() < shortWord.length()){
+                shortWord = string;
+            }else if(string.length() == shortWord.length()){
+                int compare = shortWord.compareTo(string);
+                if(compare > 0){
+                    shortWord = string;
+                }
+            }
+        }
+        return shortWord;
     }
 
     /**
@@ -40,7 +73,16 @@ public class Practice {
      * @throws NullPointerException if ages is null
      */
     public static Set<String> adults(Map<String, Integer> ages) {
-        return null;
+        if(ages == null){
+            throw new NullPointerException();
+        }
+        Set<String> peopleReturn = new HashSet<>();
+        for(String person: ages.keySet()){
+            if(ages.get(person) >= 18){
+                peopleReturn.add(person);
+            }
+        }
+        return peopleReturn;
     }
 
     /**
