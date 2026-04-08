@@ -242,7 +242,17 @@ public class Practice {
      * @return the sum of all the tree's values
      */
     public static int nbSum(TreeNode<Integer> root) {
-        return 0;
+        if (root == null) {
+            return 0;
+        }
+
+        int sum = root.data;
+
+        for (TreeNode<Integer> child : root.children) {
+            sum += nbSum(child);
+        }
+
+        return sum;
     }
 
     /**
