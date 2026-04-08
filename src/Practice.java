@@ -338,6 +338,32 @@ public class Practice {
      *         present in the tree
      */
     public static <T> int maxDepth(Map<T, List<T>> tree, T root) {
-        return 0;
+        if (tree == null || root == null || !tree.containsKey(root)) {
+            return 0;
+        }
+
+        List<T> children = tree.get(root);
+
+        if (children == null || children.isEmpty()) {
+            return 1;
+        }
+
+        int max = 0;
+
+        for (T child : children) {
+            int depth;
+
+            if (tree.containsKey(child)) {
+                depth = maxDepth(tree, child);
+            } else {
+                depth = 1;
+            }
+
+            if (depth > max) {
+                max = depth;
+            }
+        }
+
+        return max + 1;
     }
 }
