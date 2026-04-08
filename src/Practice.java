@@ -1,6 +1,8 @@
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.HashMap;
 
 public class Practice {
     /**
@@ -72,7 +74,17 @@ public class Practice {
      * @throws NullPointerException if ages is null
      */
     public static Set<String> adults(Map<String, Integer> ages) {
-        return null;
+        if(ages == null){
+            throw new NullPointerException("Cant be empty");
+        }
+        Set<String> result = new HashSet<>();
+
+        for(Map.Entry<String, Integer> entry : ages.entrySet()){
+            if(entry.getValue() >= 18) {
+                result.add(entry.getKey());
+            }
+        }
+        return result;
     }
 
     /**
@@ -83,7 +95,20 @@ public class Practice {
      * @throws IllegalArgumentException if head is null
      */
     public static int biggestNumber(ListNode<Integer> head) {
-        return 0;
+        if(head == null){
+            throw new IllegalArgumentException("Cant be null");
+        }
+
+        int biggest = Integer.MIN_VALUE;
+
+        while(head != null){
+            if(head.data > biggest){
+                biggest = head.data;
+            }
+            head = head.next;
+        }
+
+        return biggest;
     }
 
     /**
@@ -100,7 +125,18 @@ public class Practice {
      * @return a frequency map of values in the list
      */
     public static <T> Map<T, Integer> frequencies(ListNode<T> head) {
-        return null;
+        if(head == null){
+            return Map.of();
+        }
+
+        Map<T, Integer> frequencyMap = new HashMap<>();
+
+        while(head != null){
+            frequencyMap.put(head.data, frequencyMap.getOrDefault(head.data, 0) + 1);
+            head = head.next;
+        }
+
+        return frequencyMap;
     }
 
 
@@ -113,7 +149,14 @@ public class Practice {
      * @return the number of levels in the tree
      */
     public static int levelCount(BinaryTreeNode<?> root) {
-        return 0;
+        if(root == null){
+            return 0;
+        }
+
+        int leftDepth = levelCount(root.left);
+        int rightDepth = levelCount(root.right);
+
+        return Math.max(leftDepth, rightDepth) + 1;
     }
 
 
