@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -93,7 +94,18 @@ public class Practice {
      * @throws IllegalArgumentException if head is null
      */
     public static int biggestNumber(ListNode<Integer> head) {
-        return 0;
+        if(head == null){
+            throw new IllegalArgumentException();
+        }
+        ListNode<Integer> current = head;
+        int largest = current.data;
+        while(current!=null){
+            if(current.data > largest){
+                largest = current.data;
+            }
+            current = current.next;
+        }
+        return largest;
     }
 
     /**
@@ -110,7 +122,16 @@ public class Practice {
      * @return a frequency map of values in the list
      */
     public static <T> Map<T, Integer> frequencies(ListNode<T> head) {
-        return null;
+        Map<T, Integer> returnMap = new HashMap<>();
+        ListNode<T> current = head;
+        if(head == null){
+            return returnMap;
+        }
+        while(current != null){
+            returnMap.put(current.data, returnMap.getOrDefault(current.data, 0)+1);
+            current = current.next;
+        }
+        return returnMap;
     }
 
 
