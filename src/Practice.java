@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -107,7 +108,18 @@ public class Practice {
      * @return a frequency map of values in the list
      */
     public static <T> Map<T, Integer> frequencies(ListNode<T> head) {
-        return null;
+        if (head == null) { return new HashMap<>();}
+        Map<T, Integer> frequency = new HashMap<>();
+        ListNode<T> current = head;
+        while (current != null) {
+            if (!frequency.containsKey(current.data)) {
+                frequency.put(current.data, 1);
+            } else {
+                frequency.put(current.data, frequency.get(current.data) + 1);
+            }
+            current = current.next;
+        }
+        return frequency;
     }
 
 
