@@ -37,7 +37,26 @@ public class Practice {
      * @throws NullPointerException if words is null
      */
     public static String shortestWord(Set<String> words) {
-        return null;
+        if(words.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+
+        String shortestWord = "";
+
+        for(String word : words) {
+            if(shortestWord == "") {
+                shortestWord = word;
+            }
+            if(word.length() < shortestWord.length()) {
+                shortestWord = word;
+            }
+            if(word.length() == shortestWord.length()){
+                if(word.compareTo(shortestWord) < 0){
+                    shortestWord = word;
+                }
+            }
+        }
+        return shortestWord;
     }
 
     /**
