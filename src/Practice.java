@@ -79,7 +79,14 @@ public class Practice {
      * @throws IllegalArgumentException if head is null
      */
     public static int biggestNumber(ListNode<Integer> head) {
-        return 0;
+        if (head == null) throw new IllegalArgumentException();
+        int max = Integer.MIN_VALUE;
+        ListNode<Integer> curr = head;
+        while (curr != null) {
+            if (curr.data > max) max = curr.data;
+            curr = curr.next;
+        }
+        return max;
     }
 
     /**
@@ -96,7 +103,18 @@ public class Practice {
      * @return a frequency map of values in the list
      */
     public static <T> Map<T, Integer> frequencies(ListNode<T> head) {
-        return null;
+        if (head == null) return new HashMap<>();
+        Map<T, Integer> hash = new HashMap<>();
+        ListNode<T> curr = head;
+        while(curr != null) {
+            if (hash.containsKey(curr.data)) {
+                hash.put(curr.data, hash.get(curr.data) + 1);
+            } else {
+                hash.put(curr.data, 1);
+            }
+            curr = curr.next;
+        }
+        return hash;
     }
 
 
