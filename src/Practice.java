@@ -210,7 +210,30 @@ public class Practice {
      * @return true if the sums are equal, false otherwise
      */
     public static boolean sumMatch(BinaryTreeNode<Integer> root, ListNode<Integer> head) {
-        return false;
+        if(root == null && head == null){
+            return true;
+        }
+
+        int treeSum = treeSum(root);
+        int listSum = 0;
+
+        while(head != null){
+            listSum += head.data;
+            head = head.next;
+        }
+
+        return treeSum == listSum;
+    }
+
+    private static int treeSum(BinaryTreeNode<Integer> node) {
+        if(node == null){
+            return 0;
+        }
+
+        int leftSum = treeSum(node.left);
+        int rightSum = treeSum(node.right);
+
+        return node.data + leftSum + rightSum;
     }
 
     /**
