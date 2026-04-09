@@ -178,7 +178,12 @@ public class Practice {
      * @return the sum of the nodes at the given level
      */
     public static int sumAtLevel(BinaryTreeNode<Integer> root, int level) {
-        return 0;
+        if(root == null) return 0;
+        if(levelCount(root.left) > levelCount(root.right)){
+        return levelCount(root.left) + 1;
+        }else{
+        return levelCount(root.right) + 1;
+        }
     }
 
 
@@ -193,7 +198,25 @@ public class Practice {
      * @return true if the sums are equal, false otherwise
      */
     public static boolean sumMatch(BinaryTreeNode<Integer> root, ListNode<Integer> head) {
-        return false;
+        if(root == null && head == null){
+            return true;
+        }
+        ListNode<Integer> current = head;
+        int listSum = 0;
+        while(current != null){
+            listSum += current.data;
+            current = current.next;
+        }
+        if(listSum == sumTree(root)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    public static int sumTree(BinaryTreeNode<Integer> root){
+        if(root == null) return 0;
+
+        return sumTree(root.left) + sumTree(root.right) + root.data;
     }
 
     /**
@@ -205,7 +228,12 @@ public class Practice {
      * @return the sum of all the tree's values
      */
     public static int nbSum(TreeNode<Integer> root) {
-        return 0;
+        if(root == null) return 0; 
+        int sum = root.data;
+        for(TreeNode<Integer> child: root.children){
+            sum += nbSum(child);
+        }
+        return sum;
     }
 
     /**
