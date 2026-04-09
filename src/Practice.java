@@ -263,7 +263,14 @@ public class Practice {
      * @return the sum of all the tree's values
      */
     public static int nbSum(TreeNode<Integer> root) {
-        return 0;
+        if (root == null) return 0;
+
+        int sum = root.data;
+
+        for (int i = 0; i < root.children.size(); i++) {
+            sum = sum + nbSum(root.children.get(i));
+        }
+        return sum;
     }
 
     /**
