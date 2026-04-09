@@ -1,3 +1,5 @@
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -12,7 +14,17 @@ public class Practice {
      * @return the sum of the odd numbers in the array
      */
     public static int oddSum(int[] nums) {
-        return 0;
+        if (nums == null) {
+            return 0;
+        }
+        int sum = 0;
+        for (int num : nums) {
+            if (num % 2 != 0) {
+                sum += num;
+            }
+
+        }
+        return sum;
     }
 
     /**
@@ -24,10 +36,32 @@ public class Practice {
      * @param words a set of words
      * @return the shortest word in the set with a lexicographic tiebreaker
      * @throws IllegalArgumentException if words is empty
-     * @throws NullPointerException if words is null
+     * @throws NullPointerException     if words is null
      */
     public static String shortestWord(Set<String> words) {
-        return null;
+        if (words == null) {
+            throw new NullPointerException();
+        }
+        if (words.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+        String shortest = null;
+        for (String word : words) {
+            shortest = word;
+            break;
+        }
+        for (String word : words) {
+            if (word.length() < shortest.length()) {
+                shortest = word;
+
+            } else if (word.length() == shortest.length()) {
+                if (word.compareTo(shortest) < 0) {
+                    shortest = word;
+                }
+
+            }
+        }
+        return shortest;
     }
 
     /**
@@ -40,7 +74,22 @@ public class Practice {
      * @throws NullPointerException if ages is null
      */
     public static Set<String> adults(Map<String, Integer> ages) {
-        return null;
+
+        if (ages == null) {
+            throw new NullPointerException();
+        }
+
+        Set<String> result = new HashSet<>();
+        for (Map.Entry<String, Integer> entry : ages.entrySet()) {
+            String name = entry.getKey();
+            int age = entry.getValue();
+
+            if (age >= 18) {
+                result.add(name);
+            }
+        }
+
+        return result;
     }
 
     /**
@@ -51,26 +100,51 @@ public class Practice {
      * @throws IllegalArgumentException if head is null
      */
     public static int biggestNumber(ListNode<Integer> head) {
-        return 0;
+        if (head == null) {
+            throw new IllegalArgumentException();
+        }
+        int max = head.data;
+        ListNode<Integer> current = head;
+        while (current != null) {
+            if (current.data > max) {
+                max = current.data;
+            }
+            current = current.next;
+        }
+        return max;
     }
 
     /**
-     * Returns a frequency map counting how frequently items appear in a linked list.
+     * Returns a frequency map counting how frequently items appear in a linked
+     * list.
      * 
      * Example:
-     *   Input: a -> x -> a -> a -> x -> y
-     *   Output: {a:3, x:2, y:1}
+     * Input: a -> x -> a -> a -> x -> y
+     * Output: {a:3, x:2, y:1}
      * 
      * Returns an empty map if head is null
      * 
-     * @param <T> the type of data held by the list
+     * @param <T>  the type of data held by the list
      * @param head the head of the list
      * @return a frequency map of values in the list
      */
     public static <T> Map<T, Integer> frequencies(ListNode<T> head) {
-        return null;
+        Map<T, Integer> freq = new HashMap<>();
+        if (head == null) {
+            return freq;
+        }
+        ListNode<T> current = head;
+        while (current != null) {
+            T value = current.data;
+            if (freq.containsKey(value)) {
+                freq.put(value, freq.get(value) + 1);
+            } else {
+                freq.put(value, 1);
+            }
+            current = current.next;
+        }
+        return freq;
     }
-
 
     /**
      * Returns the number of levels in the tree.
@@ -81,41 +155,51 @@ public class Practice {
      * @return the number of levels in the tree
      */
     public static int levelCount(BinaryTreeNode<?> root) {
-        return 0;
-    }
+        if (root == null) {
+            return 0;
+        }
+        int leftHeight = levelCount(root.left);
+        int rightHeight = levelCount(root.right);
 
+        return 1 + Math.max(leftHeight, rightHeight);
+    }
 
     /**
      * Returns the sum at a specified level in a binary tree.
      * 
      * For example, if the given level was 3:
-     *       5
-     *     /   \
-     *    8     4
-     *   / \   / 
-     *  7  9  2
-     *    /
-     *   1
+     * 5
+     * / \
+     * 8 4
+     * / \ /
+     * 7 9 2
+     * /
+     * 1
      * 
      * Nodes at level 3: 7, 9, and 2
-     * Sum of nodes at level 3: 18 
+     * Sum of nodes at level 3: 18
      * 
      * The root is considered to be at level 1.
      * 
      * Returns 0 if the tree is empty or if the level is not present in the tree.
      * 
-     * @param root the root of the binary tree
+     * @param root  the root of the binary tree
      * @param level the level to sum
      * @return the sum of the nodes at the given level
      */
     public static int sumAtLevel(BinaryTreeNode<Integer> root, int level) {
-        return 0;
+        if (root == null) {
+            return 0;
+        }
+        if (level == 1) {
+            return root.data;
+        }
+        return sumAtLevel(root.left, level - 1) + sumAtLevel(root.right, level - 1);
     }
-
 
     /**
      * Returns true if the sum of the values in a given tree is equal to the sum
-     * of the values in the given list. 
+     * of the values in the given list.
      * 
      * An empty tree or list is considered to have a sum of 0.
      * 
@@ -124,6 +208,7 @@ public class Practice {
      * @return true if the sums are equal, false otherwise
      */
     public static boolean sumMatch(BinaryTreeNode<Integer> root, ListNode<Integer> head) {
+
         return false;
     }
 
@@ -136,22 +221,33 @@ public class Practice {
      * @return the sum of all the tree's values
      */
     public static int nbSum(TreeNode<Integer> root) {
-        return 0;
+
+        if (root == null) {
+            return 0;
+        }
+        int sum = root.data;
+        for (TreeNode<Integer> child : root.children) {
+            sum += nbSum(child);
+        }
+
+        return sum;
     }
 
     /**
-     * Returns the count of nodes in a non-binary tree that are only children, EXCLUDING the root.
+     * Returns the count of nodes in a non-binary tree that are only children,
+     * EXCLUDING the root.
      * 
-     * In other words, how many nodes in the tree do NOT have siblings, NOT INCLUDING THE ROOT.
+     * In other words, how many nodes in the tree do NOT have siblings, NOT
+     * INCLUDING THE ROOT.
      * 
      * Example:
-     *           A
-     *       /   |   \
-     *      B    C     D
-     *     /    / \    |
-     *    E    F   X   G
-     *                  \
-     *                   H
+     * A
+     * / | \
+     * B C D
+     * / / \ |
+     * E F X G
+     * \
+     * H
      * 
      * Only children: E, G, and H
      * - E is an only child because B has exactly one child
@@ -168,7 +264,17 @@ public class Practice {
      * @return the count of nodes that do not have siblings, EXCLUDING THE ROOT
      */
     public static int onlyChildCount(TreeNode<?> root) {
-        return 0;
+        if (root == null) {
+            return 0;
+        }
+        int count = 0;
+        if (root.children.size() == 1) {
+            count++;
+        }
+        for (TreeNode<?> child : root.children) {
+            count += onlyChildCount(child);
+        }
+        return count;
     }
 
     /**
@@ -176,20 +282,20 @@ public class Practice {
      * 
      * Example map:
      * {
-     *   A=[B, C, D],
-     *   B=[E, F],
-     *   D=[G],
-     *   G=[H]
+     * A=[B, C, D],
+     * B=[E, F],
+     * D=[G],
+     * G=[H]
      * }
      * 
      * Tree represented by the map:
-     *          A
-     *       /  |  \
-     *      B   C   D
-     *     / \      |
-     *    E   F     G
-     *               \
-     *                H
+     * A
+     * / | \
+     * B C D
+     * / \ |
+     * E F G
+     * \
+     * H
      * 
      * The longest path from the root to a leaf is:
      * A -> D -> G -> H
@@ -200,12 +306,33 @@ public class Practice {
      * 
      * The tree is represented as a map of parent values to lists of children.
      * 
-     * @param <T> the type of the data in the tree
+     * @param <T>  the type of the data in the tree
      * @param tree a map of parent values to lists of children
      * @param root the root value of the tree
-     * @return the depth of the tree, or 0 if the tree is null or the root is not present in the tree
+     * @return the depth of the tree, or 0 if the tree is null or the root is not
+     *         present in the tree
      */
     public static <T> int maxDepth(Map<T, List<T>> tree, T root) {
-        return 0;
+        if (tree == null || !tree.containsKey(root)) {
+            return 0;
+        }
+        List<T> children = tree.get(root);
+        if (children == null || children.isEmpty()) {
+            return 1;
+        }
+        int childMaxDepth = 0;
+        for (T child : children) {
+            int childDepth;
+
+            if (tree.containsKey(child)) {
+                childDepth = maxDepth(tree, child);
+            } else {
+                childDepth = 1;
+            }
+            if (childDepth > childMaxDepth) {
+                childMaxDepth = childDepth;
+            }
+        }
+        return 1 + childMaxDepth;
     }
 }
