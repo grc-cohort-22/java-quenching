@@ -43,12 +43,20 @@ public class Practice {
         if(words == null) throw new NullPointerException();
         if(words.isEmpty()) throw new IllegalArgumentException();
 
-        List<String> sorted = new LinkedList<>();
-        for(String word : words) {
-            sorted.add(word);
+        String shortest = null;
+        
+        for (String word : words) {
+            if(shortest == null) {
+                shortest = word;
+            } else if (word.length() < shortest.length()) {
+                shortest = word;
+            } else if (word.length() == shortest.length()) {
+                if (word.compareTo(shortest) < 0) {
+                    shortest = word;
+                }
+            }
         }
-        Collections.sort(sorted);
-        return sorted.get(0);
+        return shortest;
     }
 
     /**
