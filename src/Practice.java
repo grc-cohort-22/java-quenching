@@ -1,9 +1,11 @@
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
+import java.util.TreeMap;
 
 public class Practice {
     /**
@@ -96,7 +98,14 @@ public class Practice {
      * @return a frequency map of values in the list
      */
     public static <T> Map<T, Integer> frequencies(ListNode<T> head) {
-        return null;
+        Map<T, Integer> freqMap = new HashMap<>();
+        if (head == null) return freqMap;
+        ListNode<T> current = head;
+        while(current != null) {
+            freqMap.put(current.data, freqMap.getOrDefault(current.data, 0) + 1);
+            current = current.next;
+        }
+        return freqMap;
     }
 
 
