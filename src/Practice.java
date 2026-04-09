@@ -1,6 +1,10 @@
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
+import java.util.Queue;
+import java.util.LinkedList;
 
 public class Practice {
     /**
@@ -12,8 +16,18 @@ public class Practice {
      * @return the sum of the odd numbers in the array
      */
     public static int oddSum(int[] nums) {
-        return 0;
+        if (nums == null) return 0;
+       
+        int sum = 0;
+       
+        for (int n : nums) {
+            if (n % 2 != 0) {
+                sum += n;
+            }
+        }
+        return sum;
     }
+
 
     /**
      * Returns the shortest word in the Set.
@@ -27,8 +41,20 @@ public class Practice {
      * @throws NullPointerException if words is null
      */
     public static String shortestWord(Set<String> words) {
-        return null;
+        if (words.isEmpty()) throw new IllegalArgumentException();
+       
+        String shortest = null;
+       
+        for (String word : words) {
+            if (shortest == null
+                    || word.length() < shortest.length()
+                    || (word.length() == shortest.length() && word.compareTo(shortest) < 0)) {
+                shortest = word;
+            }
+        }
+        return shortest;
     }
+
 
     /**
      * Returns a set of all the names of people that are 18 years of age or older.
@@ -40,8 +66,15 @@ public class Practice {
      * @throws NullPointerException if ages is null
      */
     public static Set<String> adults(Map<String, Integer> ages) {
-        return null;
+        Set<String> result = new HashSet<>();
+        for (Map.Entry<String, Integer> entry : ages.entrySet()) {
+            if (entry.getValue() >= 18) {
+                result.add(entry.getKey());
+            }
+        }
+        return result;
     }
+
 
     /**
      * Returns the biggest number in a linked list.
@@ -51,8 +84,21 @@ public class Practice {
      * @throws IllegalArgumentException if head is null
      */
     public static int biggestNumber(ListNode<Integer> head) {
-        return 0;
+        if (head == null) throw new IllegalArgumentException();
+       
+        int max = head.data;
+       
+        ListNode<Integer> current = head.next;
+       
+        while (current != null) {
+            if (current.data > max) {
+                max = current.data;
+            }
+            current = current.next;
+        }
+        return max;
     }
+
 
     /**
      * Returns a frequency map counting how frequently items appear in a linked list.
@@ -68,8 +114,16 @@ public class Practice {
      * @return a frequency map of values in the list
      */
     public static <T> Map<T, Integer> frequencies(ListNode<T> head) {
-        return null;
+        Map<T, Integer> map = new HashMap<>();
+       
+        ListNode<T> current = head;
+        while (current != null) {
+            map.put(current.data, map.getOrDefault(current.data, 0) + 1);
+            current = current.next;
+        }
+        return map;
     }
+
 
 
     /**
@@ -81,8 +135,33 @@ public class Practice {
      * @return the number of levels in the tree
      */
     public static int levelCount(BinaryTreeNode<?> root) {
-        return 0;
+        if (root == null) {
+            return 0;
+        }
+       
+        int k = 0;
+        Queue<BinaryTreeNode<?>> queue = new LinkedList<>();
+        queue.add(root);
+
+
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+
+
+            BinaryTreeNode<?> node = queue.poll();
+            if (node.left != null) {
+                queue.add(node.left);
+            }
+            if (node.right != null) {
+                queue.add(node.right);
+            }
+       }            
+            k++;
     }
+        return k;
+}
+
 
 
     /**
@@ -109,8 +188,37 @@ public class Practice {
      * @return the sum of the nodes at the given level
      */
     public static int sumAtLevel(BinaryTreeNode<Integer> root, int level) {
-        return 0;
+        if (root == null) {
+            return 0;
+        }
+       
+        int k = 1;
+        int sum = 0;
+        Queue<BinaryTreeNode<Integer>> queue = new LinkedList<>();
+        queue.add(root);
+
+
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+
+
+            BinaryTreeNode<Integer> node = queue.poll();
+            if (node.left != null) {
+                queue.add(node.left);
+            }
+            if (node.right != null) {
+                queue.add(node.right);
+            }
+            if (k == level) {
+                sum += node.data;
+            }            
+        }
+        k++;
     }
+        return sum;
+}
+
 
 
     /**
@@ -124,8 +232,42 @@ public class Practice {
      * @return true if the sums are equal, false otherwise
      */
     public static boolean sumMatch(BinaryTreeNode<Integer> root, ListNode<Integer> head) {
-        return false;
+        int treeSum = 0;
+        int linkedListSum = 0;
+
+
+        if (root != null) {
+        Queue<BinaryTreeNode<Integer>> queue = new LinkedList<>();
+        queue.add(root);
+
+
+        while (!queue.isEmpty()) {
+            BinaryTreeNode<Integer> node = queue.poll();
+
+
+            if (node.left != null) {
+                queue.add(node.left);
+            }
+            if (node.right != null) {
+                queue.add(node.right);
+            }
+
+
+            treeSum += node.data;
+        }
     }
+
+
+        ListNode<Integer> current = head;
+        while (current != null) {
+            linkedListSum += current.data;
+            current = current.next;
+        }
+
+
+    return treeSum == linkedListSum;
+}
+
 
     /**
      * Returns the sum of all the nodes in a non-binary tree.
@@ -136,8 +278,18 @@ public class Practice {
      * @return the sum of all the tree's values
      */
     public static int nbSum(TreeNode<Integer> root) {
-        return 0;
+        if (root == null) return 0;
+
+
+        int sum = root.data;
+
+
+        for (TreeNode<Integer> child : root.children) {
+            sum += nbSum(child);
+        }
+        return sum;
     }
+
 
     /**
      * Returns the count of nodes in a non-binary tree that are only children, EXCLUDING the root.
@@ -168,8 +320,30 @@ public class Practice {
      * @return the count of nodes that do not have siblings, EXCLUDING THE ROOT
      */
     public static int onlyChildCount(TreeNode<?> root) {
-        return 0;
+        if (root == null) return 0;
+
+
+        int count = 0;
+        Queue<TreeNode<?>> queue = new LinkedList<>();
+        queue.add(root);
+
+
+        while (!queue.isEmpty()) {
+            TreeNode<?> node = queue.poll();
+
+
+            if (node.children.size() == 1) {
+                count++;
+            }
+
+
+            for (TreeNode<?> child : node.children) {
+                queue.add(child);
+        }
     }
+        return count;
+    }
+
 
     /**
      * Returns the maximum depth of the tree.
@@ -206,6 +380,34 @@ public class Practice {
      * @return the depth of the tree, or 0 if the tree is null or the root is not present in the tree
      */
     public static <T> int maxDepth(Map<T, List<T>> tree, T root) {
-        return 0;
+        if (tree == null) return 0;
+
+
+        if (!tree.containsKey(root)) return 0;
+
+
+        int k = 0;
+        Queue<T> queue = new LinkedList<>();
+        queue.add(root);
+
+
+        while (!queue.isEmpty()) {
+            int sizeAtK = queue.size();
+            for (int i = 0; i < sizeAtK; i++) {
+                T node = queue.poll();
+                List<T> children = tree.get(node);
+
+
+                if (children != null) {
+                    for (T child : children) {
+                        queue.add(child);
+                    }
+                }
+            }
+        k++;
+    }
+
+
+return k;
     }
 }
