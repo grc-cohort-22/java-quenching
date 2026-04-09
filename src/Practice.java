@@ -113,9 +113,17 @@ public class Practice {
      * @param head the head of the list
      * @return a frequency map of values in the list
      */
-    public static <T> Map<T, Integer> frequencies(ListNode<T> head) {
-        return null;
+public static <T> Map<T, Integer> frequencies(ListNode<T> head) {
+        Map<T, Integer> map = new HashMap<>();
+       
+        ListNode<T> current = head;
+        while (current != null) {
+            map.put(current.data, map.getOrDefault(current.data, 0) + 1);
+            current = current.next;
+        }
+        return map;
     }
+
 
 
     /**
