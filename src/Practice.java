@@ -313,6 +313,26 @@ public class Practice {
      *         present in the tree
      */
     public static <T> int maxDepth(Map<T, List<T>> tree, T root) {
-        return 0;
+        if (tree == null || !tree.containsKey(root)) {
+            return 0;
+        }
+        List<T> children = tree.get(root);
+        if (children == null || children.isEmpty()) {
+            return 1;
+        }
+        int childMaxDepth = 0;
+        for (T child : children) {
+            int childDepth;
+
+            if (tree.containsKey(child)) {
+                childDepth = maxDepth(tree, child);
+            } else {
+                childDepth = 1;
+            }
+            if (childDepth > childMaxDepth) {
+                childMaxDepth = childDepth;
+            }
+        }
+        return 1 + childMaxDepth;
     }
 }
