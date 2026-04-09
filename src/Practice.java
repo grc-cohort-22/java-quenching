@@ -1,3 +1,4 @@
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -39,7 +40,7 @@ public class Practice {
     public static String shortestWord(Set<String> words) {
        
          if (words.isEmpty()) {
-            throw new IllegalArgumentException("Set of words cannot be empty");
+            throw new IllegalArgumentException("Set of words cant be empty");
         }
           String shortest = null;
 
@@ -63,8 +64,22 @@ public class Practice {
      * @throws NullPointerException if ages is null
      */
     public static Set<String> adults(Map<String, Integer> ages) {
-        return null;
+        // return null;
+          if (ages == null) {
+            throw new NullPointerException("Ages cannot be null");
+        }
+
+        Set<String> result = new HashSet<>();
+
+        for (Map.Entry<String, Integer> entry : ages.entrySet()) {
+            if (entry.getValue() >= 18) {
+                result.add(entry.getKey());
+            }
+        }
+
+        return result;
     }
+    
 
     /**
      * Returns the biggest number in a linked list.
@@ -74,9 +89,24 @@ public class Practice {
      * @throws IllegalArgumentException if head is null
      */
     public static int biggestNumber(ListNode<Integer> head) {
-        
-        return 0;
+        // return 0;
+        if (head == null) {
+            throw new IllegalArgumentException("Linked list cannot be null");
+        }
+
+        int max = head.data;
+        ListNode<Integer> current = head.next;
+
+        while (current != null) {
+            if (current.data > max) {
+                max = current.data;
+            }
+            current = current.next;
+        }
+
+        return max;
     }
+    
 
     /**
      * Returns a frequency map counting how frequently items appear in a linked list.
@@ -105,7 +135,7 @@ public class Practice {
      * @return the number of levels in the tree
      */
     public static int levelCount(BinaryTreeNode<?> root) {
-        return 0;
+         return 0;
     }
 
 
