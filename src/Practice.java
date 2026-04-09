@@ -1,3 +1,4 @@
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -39,7 +40,15 @@ public class Practice {
      * @throws NullPointerException if words is null
      */
     public static String shortestWord(Set<String> words) {
-        return null;
+        if(words == null) throw new NullPointerException();
+        if(words.isEmpty()) throw new IllegalArgumentException();
+
+        List<String> sorted = new LinkedList<>();
+        for(String word : words) {
+            sorted.add(word);
+        }
+        Collections.sort(sorted);
+        return sorted.get(0);
     }
 
     /**
@@ -151,7 +160,11 @@ public class Practice {
      * @return the sum of the nodes at the given level
      */
     public static int sumAtLevel(BinaryTreeNode<Integer> root, int level) {
-        return 0;
+        if (root == null || level <= 0) return 0;
+
+        if(level == 1) return root.data;
+
+        return sumAtLevel(root.left, level - 1) + sumAtLevel(root.right, level - 1); 
     }
 
 
