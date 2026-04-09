@@ -1,6 +1,8 @@
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 
 public class Practice {
@@ -155,6 +157,25 @@ public class Practice {
      * @return true if the sums are equal, false otherwise
      */
     public static boolean sumMatch(BinaryTreeNode<Integer> root, ListNode<Integer> head) {
+        if(head == null && root == null) return true;
+        if(head == null || root == null) return false;
+        int listSum = 0;
+        int treeSum = 0;
+        ListNode<Integer> current = head;
+        while(current != null) {
+            listSum += current.data;
+            current = current.next;
+        }
+
+        Queue<BinaryTreeNode<Integer>> queue = new LinkedList<>();
+        queue.add(root);
+        while(!queue.isEmpty()) {
+            BinaryTreeNode<Integer> currentNode = queue.remove();
+            treeSum += currentNode.data;
+            if(currentNode.left != null) queue.add(currentNode.left);
+            if(currentNode.right != null) queue.add(currentNode.right);
+        }
+        if (treeSum == listSum) return true;
         return false;
     }
 
