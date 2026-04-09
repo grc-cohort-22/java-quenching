@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -122,8 +123,19 @@ public class Practice {
      * @return a frequency map of values in the list
      */
     public static <T> Map<T, Integer> frequencies(ListNode<T> head) {
-        return null;
+        // return null;
+          Map<T, Integer> freqMap = new HashMap<>();
+        ListNode<T> current = head;
+
+        while (current != null) {
+            freqMap.put(current.data, freqMap.getOrDefault(current.data, 0) + 1);
+            current = current.next;
+        }
+
+        return freqMap;
     }
+
+    
 
 
     /**
@@ -135,7 +147,10 @@ public class Practice {
      * @return the number of levels in the tree
      */
     public static int levelCount(BinaryTreeNode<?> root) {
-         return 0;
+        //  return 0;
+          if (root == null) return 0;
+    return 1 + Math.max(levelCount(root.left), levelCount(root.right));
+
     }
 
 
@@ -163,7 +178,20 @@ public class Practice {
      * @return the sum of the nodes at the given level
      */
     public static int sumAtLevel(BinaryTreeNode<Integer> root, int level) {
+        // return 0;
+         if (root == null || level < 1) {
         return 0;
+    }
+
+    // If at  desired level
+    if (level == 1) {
+        return root.data;
+    }
+
+    // Otherwise, go down a level
+    return sumAtLevel(root.left, level - 1) 
+         + sumAtLevel(root.right, level - 1);
+}
     }
 
 
@@ -262,4 +290,3 @@ public class Practice {
     public static <T> int maxDepth(Map<T, List<T>> tree, T root) {
         return 0;
     }
-}
