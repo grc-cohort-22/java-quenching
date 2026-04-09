@@ -256,7 +256,18 @@ public class Practice {
      * @return the count of nodes that do not have siblings, EXCLUDING THE ROOT
      */
     public static int onlyChildCount(TreeNode<?> root) {
-        return 0;
+        if (root == null) return 0;
+
+        int count = 0;
+
+        for(TreeNode<?> childNode : root.children) {
+            if(root.children.size() == 1) {
+                count = 1;
+            }
+            count += onlyChildCount(childNode);
+        }
+
+        return count;
     }
 
     /**
