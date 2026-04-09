@@ -1,3 +1,5 @@
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -12,7 +14,17 @@ public class Practice {
      * @return the sum of the odd numbers in the array
      */
     public static int oddSum(int[] nums) {
+         if (nums == null || nums.length == 0) {
         return 0;
+    }
+        int sum = 0;
+
+    for (int num : nums) {
+        if (num % 2 != 0) {
+            sum += num;
+        } 
+    }
+    return sum;
     }
 
     /**
@@ -27,7 +39,20 @@ public class Practice {
      * @throws NullPointerException if words is null
      */
     public static String shortestWord(Set<String> words) {
-        return null;
+       
+         if (words.isEmpty()) {
+            throw new IllegalArgumentException("Set of words cant be empty");
+        }
+          String shortest = null;
+
+        for (String word : words) {
+            if (shortest == null
+                || word.length() < shortest.length()
+                || (word.length() == shortest.length() && word.compareTo(shortest) < 0)) {
+                shortest = word;
+            }
+        }
+        return shortest;
     }
 
     /**
@@ -40,8 +65,22 @@ public class Practice {
      * @throws NullPointerException if ages is null
      */
     public static Set<String> adults(Map<String, Integer> ages) {
-        return null;
+        // return null;
+          if (ages == null) {
+            throw new NullPointerException("Ages cant be null");
+        }
+
+        Set<String> result = new HashSet<>();
+
+        for (Map.Entry<String, Integer> entry : ages.entrySet()) {
+            if (entry.getValue() >= 18) {
+                result.add(entry.getKey());
+            }
+        }
+
+        return result;
     }
+    
 
     /**
      * Returns the biggest number in a linked list.
@@ -51,8 +90,24 @@ public class Practice {
      * @throws IllegalArgumentException if head is null
      */
     public static int biggestNumber(ListNode<Integer> head) {
-        return 0;
+        // return 0;
+        if (head == null) {
+            throw new IllegalArgumentException("Linked list cant be null");
+        }
+
+        int max = head.data;
+        ListNode<Integer> current = head.next;
+
+        while (current != null) {
+            if (current.data > max) {
+                max = current.data;
+            }
+            current = current.next;
+        }
+
+        return max;
     }
+    
 
     /**
      * Returns a frequency map counting how frequently items appear in a linked list.
@@ -68,8 +123,19 @@ public class Practice {
      * @return a frequency map of values in the list
      */
     public static <T> Map<T, Integer> frequencies(ListNode<T> head) {
-        return null;
+        // return null;
+          Map<T, Integer> freqMap = new HashMap<>();
+        ListNode<T> current = head;
+
+        while (current != null) {
+            freqMap.put(current.data, freqMap.getOrDefault(current.data, 0) + 1);
+            current = current.next;
+        }
+
+        return freqMap;
     }
+
+    
 
 
     /**
@@ -81,7 +147,10 @@ public class Practice {
      * @return the number of levels in the tree
      */
     public static int levelCount(BinaryTreeNode<?> root) {
-        return 0;
+        //  return 0;
+          if (root == null) return 0;
+    return 1 + Math.max(levelCount(root.left), levelCount(root.right));
+
     }
 
 
@@ -109,8 +178,21 @@ public class Practice {
      * @return the sum of the nodes at the given level
      */
     public static int sumAtLevel(BinaryTreeNode<Integer> root, int level) {
+        // return 0;
+         if (root == null || level < 1) {
         return 0;
     }
+
+    // If at  desired level
+    if (level == 1) {
+        return root.data;
+    }
+
+    // Otherwise, go down a level
+    return sumAtLevel(root.left, level - 1) 
+         + sumAtLevel(root.right, level - 1);
+}
+    
 
 
     /**
@@ -124,8 +206,25 @@ public class Practice {
      * @return true if the sums are equal, false otherwise
      */
     public static boolean sumMatch(BinaryTreeNode<Integer> root, ListNode<Integer> head) {
-        return false;
+        // return false;
+         return treeSum(root) == listSum(head);
+}
+
+private static int treeSum(BinaryTreeNode<Integer> root) {
+    if (root == null) return 0;
+    return root.data + treeSum(root.left) + treeSum(root.right);
+}
+
+private static int listSum(ListNode<Integer> head) {
+    int sum = 0;
+    ListNode<Integer> current = head;
+    while (current != null) {
+        sum += current.data;
+        current = current.next;
     }
+    return sum;
+}
+    
 
     /**
      * Returns the sum of all the nodes in a non-binary tree.
@@ -136,7 +235,16 @@ public class Practice {
      * @return the sum of all the tree's values
      */
     public static int nbSum(TreeNode<Integer> root) {
-        return 0;
+        // return 0;
+        if (root == null) return 0;
+
+    int sum = root.data;
+
+    for (TreeNode<Integer> child : root.children) {
+        sum += nbSum(child);
+    }
+
+    return sum;
     }
 
     /**
@@ -168,7 +276,21 @@ public class Practice {
      * @return the count of nodes that do not have siblings, EXCLUDING THE ROOT
      */
     public static int onlyChildCount(TreeNode<?> root) {
-        return 0;
+        // return 0;
+         if (root == null) return 0;
+
+    int count = 0;
+
+    for (TreeNode<?> child : root.children) {
+        // If parent has exactly ONE child → that child is an only child
+        if (root.children.size() == 1) {
+            count += 1;
+        }
+        // Recurse into subtree
+        count += onlyChildCount(child);
+    }
+
+    return count;
     }
 
     /**
@@ -206,6 +328,27 @@ public class Practice {
      * @return the depth of the tree, or 0 if the tree is null or the root is not present in the tree
      */
     public static <T> int maxDepth(Map<T, List<T>> tree, T root) {
+        // return 0;
+          if (tree == null || root == null || !tree.containsKey(root)) {
         return 0;
+    }
+
+    return depthHelper(tree, root);
+}
+
+private static <T> int depthHelper(Map<T, List<T>> tree, T node) {
+    List<T> children = tree.get(node);
+
+    // If no children → leaf node
+    if (children == null || children.isEmpty()) {
+        return 1;
+    }
+
+    int max = 0;
+    for (T child : children) {
+        max = Math.max(max, depthHelper(tree, child));
+    }
+
+    return 1 + max;
     }
 }
