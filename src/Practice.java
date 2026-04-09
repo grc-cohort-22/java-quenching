@@ -320,8 +320,30 @@ public class Practice {
      * @return the count of nodes that do not have siblings, EXCLUDING THE ROOT
      */
     public static int onlyChildCount(TreeNode<?> root) {
-        return 0;
+        if (root == null) return 0;
+
+
+        int count = 0;
+        Queue<TreeNode<?>> queue = new LinkedList<>();
+        queue.add(root);
+
+
+        while (!queue.isEmpty()) {
+            TreeNode<?> node = queue.poll();
+
+
+            if (node.children.size() == 1) {
+                count++;
+            }
+
+
+            for (TreeNode<?> child : node.children) {
+                queue.add(child);
+        }
     }
+        return count;
+    }
+
 
     /**
      * Returns the maximum depth of the tree.
