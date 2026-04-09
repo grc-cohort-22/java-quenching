@@ -265,7 +265,17 @@ public class Practice {
      * @return the count of nodes that do not have siblings, EXCLUDING THE ROOT
      */
     public static int onlyChildCount(TreeNode<?> root) {
-        return 0;
+        if(root == null) return 0; 
+        int count = 0;
+
+        for(TreeNode<?> child: root.children){
+            count += onlyChildCount(child);
+        }
+        if(root.children.size() == 1){
+            return count + 1;
+        }
+        return count;
+        
     }
 
     /**
@@ -303,6 +313,13 @@ public class Practice {
      * @return the depth of the tree, or 0 if the tree is null or the root is not present in the tree
      */
     public static <T> int maxDepth(Map<T, List<T>> tree, T root) {
-        return 0;
-    }
+        if(tree == null) return 0;
+        if(tree.get(root)==null)return 0;
+        if(tree.get(root).isEmpty())return 1;
+        int value = 1;
+        for(T child: tree.get(root)){
+        value = Math.max(value, maxDepth(tree, child));
+        }
+        return value + 1;
+  }
 }
