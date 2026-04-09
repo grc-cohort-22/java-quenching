@@ -113,7 +113,7 @@ public class Practice {
      * @param head the head of the list
      * @return a frequency map of values in the list
      */
-public static <T> Map<T, Integer> frequencies(ListNode<T> head) {
+    public static <T> Map<T, Integer> frequencies(ListNode<T> head) {
         Map<T, Integer> map = new HashMap<>();
        
         ListNode<T> current = head;
@@ -135,8 +135,33 @@ public static <T> Map<T, Integer> frequencies(ListNode<T> head) {
      * @return the number of levels in the tree
      */
     public static int levelCount(BinaryTreeNode<?> root) {
-        return 0;
+        if (root == null) {
+            return 0;
+        }
+       
+        int k = 0;
+        Queue<BinaryTreeNode<?>> queue = new LinkedList<>();
+        queue.add(root);
+
+
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+
+
+            BinaryTreeNode<?> node = queue.poll();
+            if (node.left != null) {
+                queue.add(node.left);
+            }
+            if (node.right != null) {
+                queue.add(node.right);
+            }
+       }            
+            k++;
     }
+        return k;
+}
+
 
 
     /**
