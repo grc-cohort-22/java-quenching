@@ -232,8 +232,42 @@ public class Practice {
      * @return true if the sums are equal, false otherwise
      */
     public static boolean sumMatch(BinaryTreeNode<Integer> root, ListNode<Integer> head) {
-        return false;
+        int treeSum = 0;
+        int linkedListSum = 0;
+
+
+        if (root != null) {
+        Queue<BinaryTreeNode<Integer>> queue = new LinkedList<>();
+        queue.add(root);
+
+
+        while (!queue.isEmpty()) {
+            BinaryTreeNode<Integer> node = queue.poll();
+
+
+            if (node.left != null) {
+                queue.add(node.left);
+            }
+            if (node.right != null) {
+                queue.add(node.right);
+            }
+
+
+            treeSum += node.data;
+        }
     }
+
+
+        ListNode<Integer> current = head;
+        while (current != null) {
+            linkedListSum += current.data;
+            current = current.next;
+        }
+
+
+    return treeSum == linkedListSum;
+}
+
 
     /**
      * Returns the sum of all the nodes in a non-binary tree.
