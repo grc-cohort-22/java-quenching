@@ -16,8 +16,18 @@ public class Practice {
      * @return the sum of the odd numbers in the array
      */
     public static int oddSum(int[] nums) {
-        return 0;
+        if (nums == null) return 0;
+       
+        int sum = 0;
+       
+        for (int n : nums) {
+            if (n % 2 != 0) {
+                sum += n;
+            }
+        }
+        return sum;
     }
+
 
     /**
      * Returns the shortest word in the Set.
