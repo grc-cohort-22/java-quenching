@@ -42,7 +42,10 @@ public class Practice {
         String shortest = words.iterator().next();
 
         for (String word : words){
-            if (word.length() < shortest.length() || word.compareTo(shortest) < 0) shortest = word;
+            if (word.length() < shortest.length()
+                || (word.length() == shortest.length() && word.compareTo(shortest) < 0)) {
+                shortest = word;
+            }
         }
 
 
@@ -158,7 +161,9 @@ public class Practice {
      * @return the sum of the nodes at the given level
      */
     public static int sumAtLevel(BinaryTreeNode<Integer> root, int level) {
-        return 0;
+        if (root == null || level <= 0) return 0;
+        if (level == 1) return root.data;
+        return sumAtLevel(root.left, level - 1) + sumAtLevel(root.right, level - 1);
     }
 
 
@@ -173,7 +178,7 @@ public class Practice {
      * @return true if the sums are equal, false otherwise
      */
     public static boolean sumMatch(BinaryTreeNode<Integer> root, ListNode<Integer> head) {
-        return false;
+        return binaryTreeSum(root) == listSum(head);
     }
 
     /**
@@ -185,7 +190,14 @@ public class Practice {
      * @return the sum of all the tree's values
      */
     public static int nbSum(TreeNode<Integer> root) {
-        return 0;
+        if (root == null) return 0;
+
+        int sum = root.data;
+        for (TreeNode<Integer> child : root.children) {
+            sum += nbSum(child);
+        }
+
+        return sum;
     }
 
     /**
@@ -217,7 +229,18 @@ public class Practice {
      * @return the count of nodes that do not have siblings, EXCLUDING THE ROOT
      */
     public static int onlyChildCount(TreeNode<?> root) {
-        return 0;
+        if (root == null) return 0;
+
+        int count = 0;
+        if (root.children.size() == 1) {
+            count += 1;
+        }
+
+        for (TreeNode<?> child : root.children) {
+            count += onlyChildCount(child);
+        }
+
+        return count;
     }
 
     /**
@@ -255,6 +278,39 @@ public class Practice {
      * @return the depth of the tree, or 0 if the tree is null or the root is not present in the tree
      */
     public static <T> int maxDepth(Map<T, List<T>> tree, T root) {
-        return 0;
+        if (tree == null || root == null || !tree.containsKey(root)) return 0;
+        return maxDepthFrom(tree, root);
+    }
+
+    private static int binaryTreeSum(BinaryTreeNode<Integer> root) {
+        if (root == null) return 0;
+        return root.data + binaryTreeSum(root.left) + binaryTreeSum(root.right);
+    }
+
+    private static int listSum(ListNode<Integer> head) {
+        int sum = 0;
+        ListNode<Integer> current = head;
+        while (current != null) {
+            sum += current.data;
+            current = current.next;
+        }
+        return sum;
+    }
+
+    private static <T> int maxDepthFrom(Map<T, List<T>> tree, T root) {
+        List<T> children = tree.get(root);
+        if (children == null || children.isEmpty()) {
+            return 1;
+        }
+
+        int maxChildDepth = 0;
+        for (T child : children) {
+            int childDepth = maxDepthFrom(tree, child);
+            if (childDepth > maxChildDepth) {
+                maxChildDepth = childDepth;
+            }
+        }
+
+        return 1 + maxChildDepth;
     }
 }
