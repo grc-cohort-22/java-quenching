@@ -1,3 +1,5 @@
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -12,7 +14,14 @@ public class Practice {
      * @return the sum of the odd numbers in the array
      */
     public static int oddSum(int[] nums) {
-        return 0;
+        if (nums == null) return 0;
+        int sum = 0;
+
+        for (int i = 0; i < nums.length; i++){
+            sum += nums[i] % 2 != 0 ? nums[i] : 0;
+        }
+
+        return sum;
     }
 
     /**
@@ -27,7 +36,20 @@ public class Practice {
      * @throws NullPointerException if words is null
      */
     public static String shortestWord(Set<String> words) {
-        return null;
+        if (words == null) throw new NullPointerException("words cannot be null");
+        if (words.size() == 0) throw new IllegalArgumentException("words set is empty.");
+        
+        String shortest = words.iterator().next();
+
+        for (String word : words){
+            if (word.length() < shortest.length()
+                || (word.length() == shortest.length() && word.compareTo(shortest) < 0)) {
+                shortest = word;
+            }
+        }
+
+
+        return shortest;
     }
 
     /**
@@ -40,7 +62,13 @@ public class Practice {
      * @throws NullPointerException if ages is null
      */
     public static Set<String> adults(Map<String, Integer> ages) {
-        return null;
+        if (ages == null) throw new NullPointerException("ages is null");
+        Set<String> adultSet = new HashSet<>();
+        for (Map.Entry<String, Integer> pair : ages.entrySet()){
+            if (pair.getValue() >= 18) adultSet.add(pair.getKey());
+        }
+
+        return adultSet;
     }
 
     /**
@@ -51,7 +79,19 @@ public class Practice {
      * @throws IllegalArgumentException if head is null
      */
     public static int biggestNumber(ListNode<Integer> head) {
-        return 0;
+        if (head == null) throw new IllegalArgumentException("head cannot be null");
+
+        int biggest = head.data;
+        ListNode<Integer> current = head.next;
+
+        while (current != null) {
+            if (current.data > biggest) {
+                biggest = current.data;
+            }
+            current = current.next;
+        }
+
+        return biggest;
     }
 
     /**
@@ -68,7 +108,15 @@ public class Practice {
      * @return a frequency map of values in the list
      */
     public static <T> Map<T, Integer> frequencies(ListNode<T> head) {
-        return null;
+        Map<T, Integer> counts = new HashMap<>();
+        ListNode<T> current = head;
+
+        while (current != null) {
+            counts.put(current.data, counts.getOrDefault(current.data, 0) + 1);
+            current = current.next;
+        }
+
+        return counts;
     }
 
 
@@ -81,7 +129,11 @@ public class Practice {
      * @return the number of levels in the tree
      */
     public static int levelCount(BinaryTreeNode<?> root) {
-        return 0;
+        if (root == null) return 0;
+
+        int leftLevels = levelCount(root.left);
+        int rightLevels = levelCount(root.right);
+        return 1 + Math.max(leftLevels, rightLevels);
     }
 
 
@@ -109,7 +161,9 @@ public class Practice {
      * @return the sum of the nodes at the given level
      */
     public static int sumAtLevel(BinaryTreeNode<Integer> root, int level) {
-        return 0;
+        if (root == null || level <= 0) return 0;
+        if (level == 1) return root.data;
+        return sumAtLevel(root.left, level - 1) + sumAtLevel(root.right, level - 1);
     }
 
 
@@ -124,7 +178,7 @@ public class Practice {
      * @return true if the sums are equal, false otherwise
      */
     public static boolean sumMatch(BinaryTreeNode<Integer> root, ListNode<Integer> head) {
-        return false;
+        return binaryTreeSum(root) == listSum(head);
     }
 
     /**
@@ -136,7 +190,14 @@ public class Practice {
      * @return the sum of all the tree's values
      */
     public static int nbSum(TreeNode<Integer> root) {
-        return 0;
+        if (root == null) return 0;
+
+        int sum = root.data;
+        for (TreeNode<Integer> child : root.children) {
+            sum += nbSum(child);
+        }
+
+        return sum;
     }
 
     /**
@@ -168,7 +229,18 @@ public class Practice {
      * @return the count of nodes that do not have siblings, EXCLUDING THE ROOT
      */
     public static int onlyChildCount(TreeNode<?> root) {
-        return 0;
+        if (root == null) return 0;
+
+        int count = 0;
+        if (root.children.size() == 1) {
+            count += 1;
+        }
+
+        for (TreeNode<?> child : root.children) {
+            count += onlyChildCount(child);
+        }
+
+        return count;
     }
 
     /**
@@ -206,6 +278,39 @@ public class Practice {
      * @return the depth of the tree, or 0 if the tree is null or the root is not present in the tree
      */
     public static <T> int maxDepth(Map<T, List<T>> tree, T root) {
-        return 0;
+        if (tree == null || root == null || !tree.containsKey(root)) return 0;
+        return maxDepthFrom(tree, root);
+    }
+
+    private static int binaryTreeSum(BinaryTreeNode<Integer> root) {
+        if (root == null) return 0;
+        return root.data + binaryTreeSum(root.left) + binaryTreeSum(root.right);
+    }
+
+    private static int listSum(ListNode<Integer> head) {
+        int sum = 0;
+        ListNode<Integer> current = head;
+        while (current != null) {
+            sum += current.data;
+            current = current.next;
+        }
+        return sum;
+    }
+
+    private static <T> int maxDepthFrom(Map<T, List<T>> tree, T root) {
+        List<T> children = tree.get(root);
+        if (children == null || children.isEmpty()) {
+            return 1;
+        }
+
+        int maxChildDepth = 0;
+        for (T child : children) {
+            int childDepth = maxDepthFrom(tree, child);
+            if (childDepth > maxChildDepth) {
+                maxChildDepth = childDepth;
+            }
+        }
+
+        return 1 + maxChildDepth;
     }
 }
