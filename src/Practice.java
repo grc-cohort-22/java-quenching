@@ -1,4 +1,4 @@
-import java.security.KeyStore.Entry;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +42,7 @@ public class Practice {
         String shortest = words.iterator().next();
 
         for (String word : words){
-            if (word.length() < shortest.length()) shortest = word;
+            if (word.length() < shortest.length() || word.compareTo(shortest) < 0) shortest = word;
         }
 
 
@@ -76,7 +76,19 @@ public class Practice {
      * @throws IllegalArgumentException if head is null
      */
     public static int biggestNumber(ListNode<Integer> head) {
-        return 0;
+        if (head == null) throw new IllegalArgumentException("head cannot be null");
+
+        int biggest = head.data;
+        ListNode<Integer> current = head.next;
+
+        while (current != null) {
+            if (current.data > biggest) {
+                biggest = current.data;
+            }
+            current = current.next;
+        }
+
+        return biggest;
     }
 
     /**
@@ -93,7 +105,15 @@ public class Practice {
      * @return a frequency map of values in the list
      */
     public static <T> Map<T, Integer> frequencies(ListNode<T> head) {
-        return null;
+        Map<T, Integer> counts = new HashMap<>();
+        ListNode<T> current = head;
+
+        while (current != null) {
+            counts.put(current.data, counts.getOrDefault(current.data, 0) + 1);
+            current = current.next;
+        }
+
+        return counts;
     }
 
 
@@ -106,7 +126,11 @@ public class Practice {
      * @return the number of levels in the tree
      */
     public static int levelCount(BinaryTreeNode<?> root) {
-        return 0;
+        if (root == null) return 0;
+
+        int leftLevels = levelCount(root.left);
+        int rightLevels = levelCount(root.right);
+        return 1 + Math.max(leftLevels, rightLevels);
     }
 
 
